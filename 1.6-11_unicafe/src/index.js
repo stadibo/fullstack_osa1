@@ -11,22 +11,8 @@ class App extends React.Component {
         }
     }
 
-    clickGood = () => {
-        this.setState((prevState) => ({
-            good: prevState.good + 1
-        }))
-    }
-
-    clickNeutral = () => {
-        this.setState((prevState) => ({
-            neutral: prevState.neutral + 1
-        }))
-    }
-
-    clickBad = () => {
-        this.setState((prevState) => ({
-            bad: prevState.bad + 1
-        }))
+    clickChange = (type, value) => () => {
+        this.setState({[type]: value})
     }
 
     average = () => {
@@ -56,15 +42,15 @@ class App extends React.Component {
                 <div>
                     <h1>Give feedback</h1>
                     <Button
-                        handleClick={this.clickGood}
+                        handleClick={this.clickChange('good', this.state.good + 1)}
                         text="Good"
                     />
                     <Button
-                        handleClick={this.clickNeutral}
+                        handleClick={this.clickChange('neutral', this.state.neutral + 1)}
                         text="Neutral"
                     />
                     <Button
-                        handleClick={this.clickBad}
+                        handleClick={this.clickChange('bad', this.state.bad + 1)}
                         text="Bad"
                     />
                 </div>
