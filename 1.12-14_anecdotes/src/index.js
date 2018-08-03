@@ -6,28 +6,65 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selected: 0
+            selected: 0,
+            votes: {
+                0: 0,
+                1: 0,
+                2: 0,
+                3: 0,
+                4: 0,
+                5: 0
+            }
         }
     }
 
     randomize = (max) => () => {
         let rnd = Math.floor(Math.random() * max)
-        this.setState({ selected: rnd})
+        this.setState({ selected: rnd })
+    }
+
+    vote = (index) => () => {
+        let copy = this.state.votes
+        copy[index] += 1
+        this.setState({ votes: copy })
+    }
+
+    highestRated = () => {
+
     }
 
     render() {
         return (
             <div>
-                {this.props.anecdotes[this.state.selected]}
-                <br></br>
-                <Button
-                    handleClick={this.randomize(this.props.anecdotes.length)}
-                    text="Next anecdote"
-                />
+                <div>
+                    <Display
+                        text={this.props.anecdotes[this.state.selected]}
+                        voted={this.state.votes[this.state.selected]}
+                    />
+                    <Button
+                        handleClick={this.vote(this.state.selected)}
+                        text="Vote"
+                    />
+                    <Button
+                        handleClick={this.randomize(this.props.anecdotes.length)}
+                        text="Next anecdote"
+                    />
+                </div>
+                {/* <div>
+                    <h3>anecdote with most votes:</h3>
+                    <Display
+                        text={this.props.anecdotes[this.state.top]}
+                        voted={this.state.votes[this.state.top]}
+                    />
+                </div> */}
             </div>
         )
     }
 }
+
+const Display = ({ text, voted }) => (
+    <p>{text} <br></br>has {voted} votes</p>
+)
 
 const Button = ({ handleClick, text }) => (
     <button onClick={handleClick}>
