@@ -12,7 +12,7 @@ class App extends React.Component {
     }
 
     clickChange = (type, value) => () => {
-        this.setState({[type]: value})
+        this.setState({ [type]: value })
     }
 
     average = () => {
@@ -56,6 +56,7 @@ class App extends React.Component {
                 </div>
                 <div>
                     <h1>Statistics</h1>
+
                     <Statistics
                         good={this.state.good}
                         neutral={this.state.neutral}
@@ -64,6 +65,7 @@ class App extends React.Component {
                         positive={this.positive()}
                         amount={this.amount()}
                     />
+
                 </div>
             </div>
         )
@@ -71,9 +73,12 @@ class App extends React.Component {
 }
 
 const Statistic = (props) => (
-    <div>
-        <p>{props.text} {props.value} {props.unit}</p>
-    </div>
+    <tbody>
+        <tr>
+            <td>{props.text}</td>
+            <td>{props.value} {props.unit}</td>
+        </tr>
+    </tbody>
 )
 
 const Button = ({ handleClick, text }) => (
@@ -85,7 +90,7 @@ const Button = ({ handleClick, text }) => (
 const Statistics = (props) => {
     if (props.amount !== 0)
         return (
-            <div>
+            <table>
                 <Statistic
                     value={props.good}
                     text="Good"
@@ -107,7 +112,7 @@ const Statistics = (props) => {
                     text="Positive"
                     unit="%"
                 />
-            </div>
+            </table>
         )
     else
         return <p>No feedback given</p>
