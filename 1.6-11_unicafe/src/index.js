@@ -30,28 +30,24 @@ class App extends React.Component {
     }
 
     average = () => {
-        if (this.amount() === 0)
-            return 0
-        else
-            return Math.round(
-                (this.state.good + (-1 * this.state.bad)) 
-                / this.amount() * 100
-            ) / 100
+        return Math.round(
+            (this.state.good + (-1 * this.state.bad))
+            / this.amount() * 100
+        ) / 100
     }
 
     positive = () => {
-        if (this.amount() === 0)
-            return 0
-        else
-            return Math.round(
-                100 * (this.state.good / this.amount()) * 10
-            ) / 10
+        return Math.round(
+            100 * (this.state.good / this.amount()) * 10
+        ) / 10
     }
 
     amount = () => {
-        return (this.state.good +
+        return (
+            this.state.good +
             this.state.neutral +
-            this.state.bad)
+            this.state.bad
+        )
     }
 
     render() {
@@ -80,6 +76,7 @@ class App extends React.Component {
                         bad={this.state.bad}
                         average={this.average()}
                         positive={this.positive()}
+                        amount={this.amount()}
                     />
                 </div>
             </div>
@@ -99,30 +96,35 @@ const Button = ({ handleClick, text }) => (
     </button>
 )
 
-const Statistics = (props) => (
-    <div>
-        <Statistic
-            value={props.good}
-            text="Good"
-        />
-        <Statistic
-            value={props.neutral}
-            text="Neutral"
-        />
-        <Statistic
-            value={props.bad}
-            text="Bad"
-        />
-        <Statistic
-            value={props.average}
-            text="Average"
-        />
-        <Statistic
-            value={props.positive}
-            text="Positive"
-            unit="%"
-        />
-    </div>
-)
+const Statistics = (props) => {
+    if (props.amount !== 0)
+        return (
+            <div>
+                <Statistic
+                    value={props.good}
+                    text="Good"
+                />
+                <Statistic
+                    value={props.neutral}
+                    text="Neutral"
+                />
+                <Statistic
+                    value={props.bad}
+                    text="Bad"
+                />
+                <Statistic
+                    value={props.average}
+                    text="Average"
+                />
+                <Statistic
+                    value={props.positive}
+                    text="Positive"
+                    unit="%"
+                />
+            </div>
+        )
+    else
+        return <p>No feedback given</p>
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
