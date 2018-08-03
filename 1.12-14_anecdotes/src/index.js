@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import './index.css'
 
 class App extends React.Component {
     constructor(props) {
@@ -18,19 +17,31 @@ class App extends React.Component {
         }
     }
 
-    randomize = (max) => () => {
+    randomizeClick = (max) => () => {
+        this.rnd(max)
+    }
+
+    rnd = (max) => {
         let rnd = Math.floor(Math.random() * max)
         this.setState({ selected: rnd })
     }
 
     vote = (index) => () => {
-        let copy = this.state.votes
+        let copy = {...this.state.votes}
         copy[index] += 1
         this.setState({ votes: copy })
     }
 
     highestRated = () => {
-
+        let maxValue = 0
+        let maxIndex = 0
+        for (var i = 0; i < 6; i++) {
+            if (maxValue < this.state.votes[i]) {
+                maxValue = this.state.votes[i]
+                maxIndex = i
+            }
+        }
+        return maxIndex
     }
 
     render() {
@@ -46,17 +57,17 @@ class App extends React.Component {
                         text="Vote"
                     />
                     <Button
-                        handleClick={this.randomize(this.props.anecdotes.length)}
+                        handleClick={this.randomizeClick(this.props.anecdotes.length)}
                         text="Next anecdote"
                     />
                 </div>
-                {/* <div>
+                <div>
                     <h3>anecdote with most votes:</h3>
                     <Display
-                        text={this.props.anecdotes[this.state.top]}
-                        voted={this.state.votes[this.state.top]}
+                        text={this.props.anecdotes[this.highestRated()]}
+                        voted={this.state.votes[this.highestRated()]}
                     />
-                </div> */}
+                </div>
             </div>
         )
     }
