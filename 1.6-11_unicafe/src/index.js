@@ -23,6 +23,27 @@ class App extends React.Component {
         this.setState({ bad: this.state.bad + 1 })
     }
 
+    average = () => {
+        if (this.amount() === 0)
+            return 0
+        else
+            return Math.round((this.state.good + (-1 * this.state.bad)) 
+            / this.amount()*100) / 100
+    }
+
+    positive = () => {
+        if (this.amount() === 0)
+            return 0
+        else
+            return Math.round(100*(this.state.good / this.amount())) / 10
+    }
+
+    amount = () => {
+        return (this.state.good +
+            this.state.neutral +
+            this.state.bad)
+    }
+
     render() {
         return (
             <div>
@@ -56,6 +77,13 @@ class App extends React.Component {
                         value={this.state.bad}
                         text="Bad"
                     />
+                    <Display
+                        value={this.average()}
+                        text="Average"
+                    />
+                    <div>
+                        <p>{'Positive'} {this.positive()} {'%'}</p>
+                    </div>
                 </div>
             </div>
         )
